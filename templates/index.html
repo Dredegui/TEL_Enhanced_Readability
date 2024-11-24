@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Enhancer</title>
+</head>
+<!--Body will contain two main areas-->
+<!--One to place text to improve-->
+<!--Another for the outcome-->
+<!--A button will call for the python function to do the processing of the text-->
+
+<body>
+    <div>
+        <h1>Text Enhancer</h1>
+        <textarea id="text" rows="10" cols="50"></textarea>
+        <button onclick="enhance()">Enhance</button>
+    </div>
+    <div>
+        <h1>Enhanced Text</h1>
+        <textarea id="enhanced" rows="10" cols="50"></textarea>
+    </div>
+    <script>
+        function enhance() {
+            var text = document.getElementById("text").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:5000/enhance", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var enhanced = JSON.parse(xhr.responseText);
+                    enhanced = enhanced["response"];
+                    document.getElementById("enhanced").value = enhanced;
+                }
+            };
+            xhr.send(JSON.stringify({ "text": text }));
+        }
+    </script>
+</body>
+
+</html>
