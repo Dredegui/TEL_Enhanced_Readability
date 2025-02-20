@@ -8,10 +8,10 @@ data = pd.read_csv(file_path)
 # Identify columns for "before" and "after" test scores
 choose_number_index = data.columns.get_loc('Choose a number')
 
-before_columns = [
+pre_text_columns = [
     col for col in data.columns[:choose_number_index] if "[Score]" in col
 ]
-after_columns = [
+post_text_columns = [
     col for col in data.columns[choose_number_index + 1:] if "[Score]" in col
 ]
 
@@ -21,18 +21,23 @@ def extract_score(score_str):
         return float(score_str.split(' / ')[0])
     except:
         return None
+    
+def sum_percentage(row):
+    cleaned_row = row.dropna()
+    return round(cleaned_row.sum() / len(cleaned_row) * 100)
+
 
 # Apply extraction to before and after scores
-data['Total Before Score'] = data[before_columns].applymap(extract_score).sum(axis=1)
-data['Total After Score'] = data[after_columns].applymap(extract_score).sum(axis=1)
+data['Pre-text Score %'] = data[pre_text_columns].map(extract_score).apply(sum_percentage, axis=1)
+data['Post-text Score %'] = data[post_text_columns].map(extract_score).apply(sum_percentage, axis=1)
 
-# Move Total Before Score and Total After Score after Total Score column
+# Move Total Pre-text Score and Total Post-text Score after Total Score column
 if 'Total score' in data.columns:
     score_index = data.columns.get_loc('Total score')
     columns_order = (
         list(data.columns[:score_index + 1]) +
-        ['Total Before Score', 'Total After Score'] +
-        list(data.columns[score_index + 1:].drop(['Total Before Score', 'Total After Score']))
+        ['Pre-text Score %', 'Post-text Score %'] +
+        list(data.columns[score_index + 1:].drop(['Pre-text Score %', 'Post-text Score %']))
     )
     data = data[columns_order]
 
@@ -42,7 +47,7 @@ data_0 = data[data['Choose a number'] == 0]
 data_1 = data[data['Choose a number'] == 1]
 
 # Save to separate Excel files
-data_0.to_excel('data_0.xlsx', index=False)
-data_1.to_excel('data_1.xlsx', index=False)
+data_0.to_excel('enhanced_text_results.xlsx', index=False)
+data_1.to_excel('original_text_results.xlsx', index=False)
 
-print("Data processing complete. Files saved as data_0.xlsx and data_1.xlsx.")
+print("Data processing complete. Files saved as enhanced_text_results.xlsx and original_text_results.xlsx.")

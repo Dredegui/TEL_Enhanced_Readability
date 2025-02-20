@@ -46,10 +46,6 @@ def graph_readability():
     plt.ylim(bottom=0)
     plt.show()
 
-
-import pandas as pd
-import matplotlib.pyplot as plt
-
 def graph_readability_categories():
     # Read the statistics from the excel file
     df = pd.read_excel("statistics.xlsx")
