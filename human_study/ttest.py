@@ -3,6 +3,7 @@ from scipy.stats import ttest_ind
 from scipy import stats
 import numpy as np
 import re
+from openpyxl import load_workbook
 
 # Load the data from the provided Excel files
 file_0_path = 'enhanced_text_results.xlsx'
@@ -18,7 +19,6 @@ def extract_score(score_str):
 
 # Apply extraction to the relevant columns in both datasets
 data_0['Total score'] = data_0['Total score'].apply(extract_score) / 15
-
 data_1['Total score'] = data_1['Total score'].apply(extract_score) / 15
 
 # Extract the scores for analysis
@@ -44,7 +44,6 @@ print("Normality test for original_pre_text_scores:", stats.shapiro(original_pre
 print("Normality test for enhanced_post-text_scores:", stats.shapiro(enhanced_post_text_scores))
 print("Normality test for original_post-text_scores:", stats.shapiro(original_post_text_scores))
 
-
 # Perform independent t-tests
 t_total, p_total = ttest_ind(enhanced_total_scores, original_total_scores, equal_var=False)
 t_pre_text, p_pre_text = ttest_ind(enhanced_pre_text_scores, original_pre_text_scores, equal_var=False)
@@ -58,14 +57,32 @@ results = {
     'ttest pre-text p-value': p_pre_text,
     'ttest post-text t-value': t_post_text,
     'ttest post-text p-value': p_post_text,
-    'mean pre-text questions': mean_pre_text,
+    'mean pre-text': mean_pre_text,
     'mean post-text': mean_post_text,
     'std pre-text': std_pre_text,
     'std post-text': std_post_text
 }
 
 df = pd.DataFrame(results, index=[0])
-df.to_excel('ttest_results.xlsx')
+excel_path = 'ttest_results.xlsx'
+df.to_excel(excel_path, index=False)
 
+# Adjust column widths
+wb = load_workbook(excel_path)
+ws = wb.active
 
+for col in ws.columns:
+    max_length = 0
+    column = col[0].column_letter  # Get the column name
+    for cell in col:
+        try:
+            if len(str(cell.value)) > max_length:
+                max_length = len(cell.value)
+        except:
+            pass
+    adjusted_width = (max_length + 2)
+    ws.column_dimensions[column].width = adjusted_width
 
+wb.save(excel_path)
+
+print("Data processing complete. Files saved as enhanced_text_results.xlsx and original_text_results.xlsx.")
