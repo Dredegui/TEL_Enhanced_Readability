@@ -26,14 +26,25 @@ def sum_percentage(row):
     cleaned_row = row.dropna()
     return round(cleaned_row.sum() / len(cleaned_row) * 100)
 
+def calculate(element):
+    # element = x / 15
+    x = element.split(' / ')[0]
+    return round(float(x) / 15 * 100)    
+
 
 # Apply extraction to before and after scores
-data['Pre-text Score %'] = data[pre_text_columns].map(extract_score).apply(sum_percentage, axis=1)
-data['Post-text Score %'] = data[post_text_columns].map(extract_score).apply(sum_percentage, axis=1)
+data['Pre-text score %'] = data[pre_text_columns].map(extract_score).apply(sum_percentage, axis=1)
+data['Post-text score %'] = data[post_text_columns].map(extract_score).apply(sum_percentage, axis=1)
+
+# Total score calculation
+data["Total score"] = data["Total score"].map(calculate)
 
 # Move Total Pre-text Score and Total Post-text Score after Total Score column
 if 'Total score' in data.columns:
     score_index = data.columns.get_loc('Total score')
+    # Change name of Total Score column
+    data.rename(columns={'Total score': 'Total score %'},
+                inplace=True)
     columns_order = (
         list(data.columns[:score_index + 1]) +
         ['Pre-text Score %', 'Post-text Score %'] +
