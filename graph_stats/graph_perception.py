@@ -17,13 +17,15 @@ second_custom_colors = {
     5: "#91cf60"  # Green
 }
 
+# 5 colors: Yellow through Red with Orange as the middle color
 custom_colors = {
-    1: "#d73027",  # Red
-    2: "#fc8d59",  # Orange
-    3: "#fee08b",  # Yellow
-    4: "#91cf60",  # Green  
-    5: "#1b7837"  # Dark Green
+    1: "#FFFF00", # Yellow
+    2: "#FFC300", # Golden Yellow
+    3: "#FF5733", # Orange
+    4: "#C70039", # Red-Orange
+    5: "#900C3F"  # Red
 }
+
 
 missing_info_colors = {
     "No": "#d73027",     # Red
@@ -63,12 +65,12 @@ missing_info_original = process_ratings(original_df, missing_info_col)
 missing_info_enhanced = process_ratings(enhanced_df, missing_info_col)
 
 # Function to plot stacked bars with "Original" and "Enhanced" on the y-axis
-def plot_stacked_bars(data1, data2, labels, title, ax, color_map):
-    df = pd.DataFrame({"Original": data1, "Enhanced": data2}).fillna(0)
-    df = df.T  # Transpose to have "Original" and "Enhanced" on y-axis
-
+def plot_stacked_bars(df, labels, title, ax, color_map):
     # Ensure ratings are in the correct order
     df = df[labels]
+
+    sample_sizes = [f"{label}\n(n = {int(df.loc[label].sum())})" for label in df.index]
+    df.index = sample_sizes
 
     colors = [color_map[label] for label in color_map.keys()]
     # Plot stacked bars
@@ -79,20 +81,24 @@ def plot_stacked_bars(data1, data2, labels, title, ax, color_map):
     ax.legend(title="Ratings", loc="upper right")
 
 # Create the first figure (Readability & Understandability)
-fig, axes = plt.subplots(1, 2, figsize=(16, 6), sharey=True)
+fig, ax = plt.subplots(figsize=(16, 9), sharey=True)
 
-plot_stacked_bars(readable_original, readable_enhanced, labels=range(1, 6), 
-                  title="Readability Ratings", ax=axes[0], color_map=custom_colors)
-plot_stacked_bars(understandable_original, understandable_enhanced, labels=range(1, 6), 
-                  title="Understandability Ratings", ax=axes[1], color_map=custom_colors)
+df = pd.DataFrame({"Original Readability": readable_original, "Enhanced Readability": readable_enhanced, "Original Understandability": understandable_original, "Enhanced Understandability": understandable_enhanced}).fillna(0)
+df = df.T  # Transpose to have "Original" and "Enhanced" on y-axis
 
-plt.tight_layout()
+df = df[[1, 2, 3, 4, 5]]  # Ensure ratings are in the correct order
+
+plot_stacked_bars(df, labels=[1, 2, 3, 4, 5], 
+                  title="Ratings", ax=ax, color_map=custom_colors)
+
 plt.savefig(graph_path + "readability_understandability.png", dpi=300)
 # plt.show()
 
 # Second figure for Missing Information
+df = pd.DataFrame({"Original": missing_info_original, "Enhanced": missing_info_enhanced}).fillna(0)
+df = df.T  # Transpose to have "Original" and "Enhanced" on y-axis
 fig, ax = plt.subplots(figsize=(16, 9))  
-plot_stacked_bars(missing_info_original, missing_info_enhanced, labels=["No", "Maybe", "Yes"], 
+plot_stacked_bars(df, labels=["No", "Maybe", "Yes"], 
                   title="Missing Information Ratings", ax=ax, color_map=pastel_missing_info_colors)
 plt.savefig(graph_path + "missing_information.png", dpi=300)
 # plt.show()
