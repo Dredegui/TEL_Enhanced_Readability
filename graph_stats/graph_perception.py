@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np
 
 # File paths
 results_path = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\human_study\\"
@@ -69,34 +70,65 @@ def plot_stacked_bars(df, labels, title, ax, color_map):
     # Ensure ratings are in the correct order
     df = df[labels]
 
-    sample_sizes = [f"{label}\n(n = {int(df.loc[label].sum())})" for label in df.index]
+    sample_sizes = [f"{label}\n(n = {int(abs(df.loc[label]).sum())})" for label in df.index]
     df.index = sample_sizes
-
+    print(df.head())
     colors = [color_map[label] for label in color_map.keys()]
     # Plot stacked bars
     df.plot(kind="barh", stacked=True, color=colors, ax=ax, width=0.6)
+    ax.axvline(0, color="black", linewidth=1) # Add central reference line at zero
     ax.set_title(title)
     ax.set_xlabel("Count")
     ax.set_ylabel("Text Type")
     ax.legend(title="Ratings", loc="upper right")
 
-# Create the first figure (Readability & Understandability)
-fig, ax = plt.subplots(figsize=(16, 9), sharey=True)
+def plot_manual_stacked_barh(df, labels, title, ax, color_map):
+    df = df[labels]  # Ensure correct order of ratings
+    sample_sizes = [f"{label}\n(n = {int(abs(df.loc[label]).sum())})" for label in df.index]
+    df.index = sample_sizes
+    
+    y_positions = np.arange(len(df))  # Positioning for bars
+    # Add values from 1 and 2 ratings
+    left_positions = (df[1].values + df[2].values) *-1  # Initialize left start positions
+    print(df.head())
+    for label in labels:
+        values = df[label].values
+        color = color_map[label]
+        print(f"Plotting {label}: y_positions={y_positions}, values={values}, left_positions={left_positions}, color={color}")
+        ax.barh(y_positions, values, left=left_positions, color=color, label=label, height=0.6)
+        left_positions += values  # Update left positions for stacking
 
-df = pd.DataFrame({"Original Readability": readable_original, "Enhanced Readability": readable_enhanced, "Original Understandability": understandable_original, "Enhanced Understandability": understandable_enhanced}).fillna(0)
+    
+    ax.axvline(0, color='black', linewidth=1)  # Central reference line
+    ax.set_yticks(y_positions)
+    ax.set_yticklabels(df.index)
+    ax.set_title(title)
+    ax.set_xlabel("Count")
+    ax.set_ylabel("Text Type")
+    ax.legend(title="Ratings", loc="upper right")
+    print(ax)
+
+# Create the first figure (Readability & Understandability)
+fig, ax = plt.subplots(figsize=(16, 9))
+df = pd.DataFrame({"Original Readability": readable_original,
+                   "Enhanced Readability": readable_enhanced,
+                   "Original Understandability": understandable_original,
+                   "Enhanced Understandability": understandable_enhanced
+                   }).fillna(0)
 df = df.T  # Transpose to have "Original" and "Enhanced" on y-axis
 
-df = df[[1, 2, 3, 4, 5]]  # Ensure ratings are in the correct order
+#df[[1, 2]] *= -1 # Invert the negative ratings for better visualization
 
-plot_stacked_bars(df, labels=[1, 2, 3, 4, 5], 
-                  title="Ratings", ax=ax, color_map=custom_colors)
-
+#plot_stacked_bars(df, labels=[1, 2, 3, 4, 5], title="Ratings", ax=ax, color_map=custom_colors)
+plot_manual_stacked_barh(df, labels=[1, 2, 3, 4, 5], title="Ratings", ax=ax, color_map=custom_colors)
+plt.tight_layout()
 plt.savefig(graph_path + "readability_understandability.png", dpi=300)
 # plt.show()
 
 # Second figure for Missing Information
 df = pd.DataFrame({"Original": missing_info_original, "Enhanced": missing_info_enhanced}).fillna(0)
 df = df.T  # Transpose to have "Original" and "Enhanced" on y-axis
+df["No"] *= -1 # Invert the "No" ratings for better visualization
 fig, ax = plt.subplots(figsize=(16, 9))  
 plot_stacked_bars(df, labels=["No", "Maybe", "Yes"], 
                   title="Missing Information Ratings", ax=ax, color_map=pastel_missing_info_colors)
