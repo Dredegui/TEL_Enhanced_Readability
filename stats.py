@@ -17,26 +17,31 @@ def view_statistics():
     
     return average_improvement
 """
+# file = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\excel_stats\\statistics_new_metrics_based.xlsx"
+file = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\statistics_general_sentiment_cleaned.xlsx"
+
 def view_statistics():
     # Read the statistics from the excel file
-    df = pd.read_excel("statistics.xlsx")
+    df = pd.read_excel(file)
     # Calculate the average improvement in readability
-    df["Improvement"] = df["Readability Original"] - df["Readability Enhanced"] / df["Readability Original"]
+    df["Improvement"] = df["Readability Original"] - df["Readability Simplified"] / df["Readability Original"]
     print(df["Improvement"])
     average_improvement = df["Improvement"].mean()
     print(average_improvement)
     return average_improvement
 
 # first prompt (general sentiment): average improvement = 13.200027988278896
+# first prompt (general sentiment cleaned): average improvement = 13.15973127537509
 # second prompt (metric based): average improvement = 13.43
 # third prompt (metric based): average improvement = 13.39
 # fourth prompt (metric based): average improvement = 13.43
+# fourth prompt (metric based cleaned): average improvement = 13.394554137534223
 
 def graph_readability():
     # Read the statistics from the excel file
-    df = pd.read_excel("statistics.xlsx")
+    df = pd.read_excel(file)
     # Calculate the percentage improvement in readability
-    df["Percentage Improvement"] = ((df["Readability Original"] - df["Readability Enhanced"]) / df["Readability Original"]) * 100
+    df["Percentage Improvement"] = ((df["Readability Original"] - df["Readability Simplified"]) / df["Readability Original"]) * 100
 
     # Plot the percentage improvement in readability
     plt.scatter(df["Readability Original"], df["Percentage Improvement"])
@@ -48,9 +53,9 @@ def graph_readability():
 
 def graph_readability_categories():
     # Read the statistics from the excel file
-    df = pd.read_excel("statistics.xlsx")
+    df = pd.read_excel(file)
     # Calculate the percentage improvement in readability
-    df["Percentage Improvement"] = ((df["Readability Original"] - df["Readability Enhanced"]) / df["Readability Original"]) * 100
+    df["Percentage Improvement"] = ((df["Readability Original"] - df["Readability Simplified"]) / df["Readability Original"]) * 100
 
     # Define thresholds for performance clusters
     high_threshold = 20  # Example threshold for high performers

@@ -10,6 +10,8 @@ def calculate_readability(text):
     # Calculate the average number of words per sentence
     words = text.split()
     sentences = text.split(".")
+    num_words = len(words)
+    num_sentences = len(sentences)
     avg_words_per_sentence = len(words) / len(sentences)
     
     # Calculate the average number of syllables per word
@@ -20,22 +22,32 @@ def calculate_readability(text):
     
     # Calculate the Flesch-Kincaid Grade Level
     flesch_kincaid = 0.39 * avg_words_per_sentence + 11.8 * avg_syllables_per_word - 15.59
-    return flesch_kincaid
+    return [flesch_kincaid, num_words, num_sentences]
 
 def save_statistics(text, response):
     # Calculate the readability of the original text
-    readability_original = calculate_readability(text)
+    results_original = calculate_readability(text)
+    readability_original = results_original[0]
+    num_words_original = results_original[1]
+    num_sentences_original = results_original[2]
     
-    # Calculate the readability of the enhanced text
-    readability_enhanced = calculate_readability(response)
+    # Calculate the readability of the simplified text
+    results_simplified = calculate_readability(response)
+    readability_simplified = results_simplified[0]
+    num_words_simplified = results_simplified[1]
+    num_sentences_simplified = results_simplified[2]
     
     # Save the statistics in a excel file
     
     data = {
         "Original Text": [text],
-        "Enhanced Text": [response],
+        "Simplified Text": [response],
         "Readability Original": [readability_original],
-        "Readability Enhanced": [readability_enhanced]
+        "Readability Simplified": [readability_simplified],
+        "Words Original": [num_words_original],
+        "Words Simplified": [num_words_simplified],
+        "Sentences Original": [num_sentences_original],
+        "Sentences Simplified": [num_sentences_simplified]
     }
 
     df = pd.DataFrame(data)
@@ -57,13 +69,16 @@ def graph_readability():
     
     # Plot the readability scores
     plt.hist(df["Readability Original"], alpha=0.5, label="Original Text")
-    plt.hist(df["Readability Enhanced"], alpha=0.5, label="Enhanced Text")
+    plt.hist(df["Readability Simplified"], alpha=0.5, label="Simplified Text")
     plt.xlabel("Flesch-Kincaid Grade Level")
     plt.ylabel("Frequency")
     plt.legend(loc='upper right')
-    plt.title("Readability of Original and Enhanced Text")
+    plt.title("Readability of Original and Simplified Text")
     plt.show()
 
+def clean(text, client):
+    clean_text = prompted_request("Incorrect text: ", "You are a text cleaner, you will get a text that has words stuck together, grammar errors, etc. You will return the same text but a correct version.", text, client)
+    return clean_text
     
 
 def prompted_request(prompt, system_prompt, text, client, model="gpt-3.5-turbo"):

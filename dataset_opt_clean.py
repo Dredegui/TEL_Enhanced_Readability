@@ -24,7 +24,7 @@ def process_chunks(data, start=0, chunk_size=100):
             # temp is a list of strings
             # use the first string 
             text = temp[0]
-            clean_text = prompted_request("Incorrect text: ", "You are a text cleaner, you will get a text that has words stuck together, grammar errors, etc. You will return the same text but a correct version.", text, client)
+            clean_text = clean(text, client)
             response = prompted_request(prompt, system_prompt, clean_text, client)
             save_statistics(clean_text, response)
         except Exception as e:
