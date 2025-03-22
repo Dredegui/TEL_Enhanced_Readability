@@ -111,9 +111,9 @@ def plot_manual_stacked_barh(df, labels, title, ax, color_map):
 # Create the first figure (Readability & Understandability)
 fig, ax = plt.subplots(figsize=(16, 9))
 df = pd.DataFrame({"Original Readability": readable_original,
-                   "Enhanced Readability": readable_enhanced,
+                   "Simplified Readability": readable_enhanced,
                    "Original Understandability": understandable_original,
-                   "Enhanced Understandability": understandable_enhanced
+                   "Simplified Understandability": understandable_enhanced
                    }).fillna(0)
 df = df.T  # Transpose to have "Original" and "Enhanced" on y-axis
 
@@ -126,7 +126,7 @@ plt.savefig(graph_path + "readability_understandability.png", dpi=300)
 # plt.show()
 
 # Second figure for Missing Information
-df = pd.DataFrame({"Original": missing_info_original, "Enhanced": missing_info_enhanced}).fillna(0)
+df = pd.DataFrame({"Original": missing_info_original, "Simplified": missing_info_enhanced}).fillna(0)
 df = df.T  # Transpose to have "Original" and "Enhanced" on y-axis
 df["No"] *= -1 # Invert the "No" ratings for better visualization
 fig, ax = plt.subplots(figsize=(16, 9))  
