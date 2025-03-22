@@ -62,7 +62,6 @@ def save_statistics(text, response):
         df.to_excel(file_path, index=False)
 
 
-
 def graph_readability():
     # Read the statistics from the excel file
     df = pd.read_excel("statistics.xlsx")
@@ -77,22 +76,19 @@ def graph_readability():
     plt.show()
 
 def clean(text, client):
-    clean_text = prompted_request("Incorrect text: ", "You are a text cleaner, you will get a text that has words stuck together, grammar errors, etc. You will return the same text but a correct version.", text, client)
+    clean_text = prompted_request("You are a text cleaner, you will get a text with LaTeX artifacts. I want you to remove the artifacts and return the text without artifacts and without changing anything else.", text, client, max_tks=20000)
     return clean_text
     
-
-def prompted_request(prompt, system_prompt, text, client, model="gpt-3.5-turbo"):
-    # Combine prompt and input text
-    full_prompt = f"{prompt}\n\n{text}"
+def prompted_request(system_prompt, text, client, temp=0.7, max_tks=1000, model="gpt-3.5-turbo"):
     # Call the OpenAI API
     response = client.chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": full_prompt}
+            {"role": "user", "content": text}
         ],
-        temperature=0.7,  # Adjust creativity level
-        max_tokens=1000  # Adjust output length
+        temperature=temp,  # Adjust creativity level
+        max_tokens=max_tks  # Adjust output length
     )
     print("Response received")
     print(response)
