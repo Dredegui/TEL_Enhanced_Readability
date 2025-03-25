@@ -1,5 +1,10 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path='api.env')
+dir_path = os.getenv('DIR_PATH')
 
 """
 def view_statistics():
@@ -17,8 +22,8 @@ def view_statistics():
     
     return average_improvement
 """
-# file = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\excel_stats\\statistics_new_metrics_based.xlsx"
-file = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\statistics_general_sentiment_cleaned.xlsx"
+# file = dir_path + "excel_stats\\statistics_new_metrics_based.xlsx"
+file = dir_path + "statistics_general_sentiment_cleaned.xlsx"
 
 def view_statistics():
     # Read the statistics from the excel file
@@ -29,13 +34,6 @@ def view_statistics():
     average_improvement = df["Improvement"].mean()
     print(average_improvement)
     return average_improvement
-
-# first prompt (general sentiment): average improvement = 13.200027988278896
-# first prompt (general sentiment cleaned): average improvement = 13.15973127537509
-# second prompt (metric based): average improvement = 13.43
-# third prompt (metric based): average improvement = 13.39
-# fourth prompt (metric based): average improvement = 13.43
-# fourth prompt (metric based cleaned): average improvement = 13.394554137534223
 
 def graph_readability():
     # Read the statistics from the excel file

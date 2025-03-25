@@ -148,7 +148,7 @@ def split(tex_list, start_char, end_char):
     while i < length and (end is None):
         if start is None:
             if lines[i].startswith(start_char):
-                start = i + 1
+                start = i
         else:
             if lines[i].startswith(end_char):
                 end = i
@@ -159,15 +159,12 @@ def split(tex_list, start_char, end_char):
 
 def extract_old(tex_list, segment=False):
     data = tex_list
-    text = ' '.join(data)
     intro = ' '.join(split(tex_list, '\section{Intro', '\section{'))
-    related = ' '.join(split(tex_list, '\section{Related', '\section{'))
-    conclusion = ' '.join(split(tex_list, '\section{Conclu', '\section{'))
-    methods = text.replace(intro, '').replace(related, '').replace(conclusion, '')
+    # related = ' '.join(split(tex_list, '\section{Related', '\section{'))
+    # conclusion = ' '.join(split(tex_list, '\section{Conclu', '\section{'))
+    # methods = text.replace(intro, '').replace(related, '').replace(conclusion, '')
     if segment:
         pass
     else:
-        return list(map(process_text_list, 
-                    [intro.split('\n'), related.split('\n'), methods.split('\n'), conclusion.split('\n')]))
-
+        return intro.split('\n')
     
