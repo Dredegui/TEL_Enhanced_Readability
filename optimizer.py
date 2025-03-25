@@ -24,6 +24,7 @@ def calculate_readability(text):
     flesch_kincaid = 0.39 * avg_words_per_sentence + 11.8 * avg_syllables_per_word - 15.59
     return [flesch_kincaid, num_words, num_sentences]
 
+
 def save_statistics(text, response):
     # Calculate the readability of the original text
     results_original = calculate_readability(text)
@@ -75,11 +76,8 @@ def graph_readability():
     plt.title("Readability of Original and Simplified Text")
     plt.show()
 
-def clean(text, client):
-    clean_text = prompted_request("You are a text cleaner, you will get a text with LaTeX artifacts. I want you to remove the artifacts and return the text without artifacts and without changing anything else.", text, client, max_tks=20000)
-    return clean_text
-    
-def prompted_request(system_prompt, text, client, temp=0.7, max_tks=1000, model="gpt-3.5-turbo"):
+
+def prompted_request(system_prompt, text, client, temp=0.7, max_tks=5000, model="gpt-3.5-turbo"):
     # Call the OpenAI API
     response = client.chat.completions.create(
         model=model,

@@ -1,11 +1,15 @@
 import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 import numpy as np
+import os
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path='api.env')
+dir_path = os.getenv('DIR_PATH')
 
 # File paths
-results_path = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\human_study\\"
-graph_path = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\graph_stats\\"
+results_path = dir_path + "human_study\\"
+graph_path = dir_path + "graph_stats\\"
 original_file = results_path + "original_text_results.xlsx"
 enhanced_file = results_path + "enhanced_text_results.xlsx"
 

@@ -1,11 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+from dotenv import load_dotenv
 
+load_dotenv(dotenv_path='api.env')
+dir_path = os.getenv('DIR_PATH')
 
 # Load the dataset
-results_path = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\human_study\\"
-graph_path = "C:\\Users\\guipa\\OneDrive\\Documentos\\GitHub\\TEL_Enhanced_Readability\\graph_stats\\"
+results_path = dir_path + "human_study\\"
+graph_path = dir_path + "graph_stats\\"
 file_path = results_path + "knowledgeTest.csv"
 df = pd.read_csv(file_path)
 smoothing = 0.3
