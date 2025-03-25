@@ -1,13 +1,13 @@
 import pandas as pd
-from scipy.stats import ttest_ind
-from scipy import stats
-import numpy as np
-import re
 from openpyxl import load_workbook
 
+####################
+# Results Analysis #
+####################
+
 # Load the data from the provided Excel files
-file_0_path = 'enhanced_text_results.xlsx'
-file_1_path = 'original_text_results.xlsx'
+file_0_path = 'results_enhanced_text.xlsx'
+file_1_path = 'results_original_text.xlsx'
 
 data_0 = pd.read_excel(file_0_path)
 data_1 = pd.read_excel(file_1_path)
@@ -28,38 +28,25 @@ original_mean_stats = [original_total_scores.mean(), original_pre_text_scores.me
 enhanced_std_stats = [enhanced_total_scores.std(), enhanced_pre_text_scores.std(), enhanced_post_text_scores.std()]
 original_std_stats = [original_total_scores.std(), original_pre_text_scores.std(), original_post_text_scores.std()]
 
-
-
-print("Normality test for enhanced_pre_text_scores:", stats.shapiro(enhanced_pre_text_scores))
-print("Normality test for original_pre_text_scores:", stats.shapiro(original_pre_text_scores))
-print("Normality test for enhanced_post-text_scores:", stats.shapiro(enhanced_post_text_scores))
-print("Normality test for original_post-text_scores:", stats.shapiro(original_post_text_scores))
-print("Normality test for enhanced_total_scores:", stats.shapiro(enhanced_total_scores))
-print("Normality test for original_total_scores:", stats.shapiro(original_total_scores))
-
-# Perform independent t-tests
-t_total, p_total = ttest_ind(enhanced_total_scores, original_total_scores, equal_var=False)
-t_pre_text, p_pre_text = ttest_ind(enhanced_pre_text_scores, original_pre_text_scores, equal_var=False)
-t_post_text, p_post_text = ttest_ind(enhanced_post_text_scores, original_post_text_scores, equal_var=False)
-
-t_stats = [t_total, t_pre_text, t_post_text]
-p_stats = [p_total, p_pre_text, p_post_text]
+####################
+# Save results     #
+####################
 
 # Put results in a xlxs file
 results = {
     'Original Mean': original_mean_stats,
     'Enhanced Mean': enhanced_mean_stats,
     'Original Standard Deviation': original_std_stats,
-    'Enhanced Standard Deviation': enhanced_std_stats,
-    'T-Statistic': t_stats,
-    'P-Value': p_stats
+    'Enhanced Standard Deviation': enhanced_std_stats
 }
 
 df = pd.DataFrame(results, index=['Total', 'Pre-text', 'Post-text'])
-excel_path = 'ttest_results.xlsx'
+excel_path = 'base_stats.xlsx'
 df.to_excel(excel_path, index=True)
 
-# Adjust column widths
+########################
+# Adjust column widths #
+########################
 wb = load_workbook(excel_path)
 ws = wb.active
 
@@ -76,5 +63,3 @@ for col in ws.columns:
     ws.column_dimensions[column].width = adjusted_width
 
 wb.save(excel_path)
-
-print("Data processing complete. Files saved as enhanced_text_results.xlsx and original_text_results.xlsx.")

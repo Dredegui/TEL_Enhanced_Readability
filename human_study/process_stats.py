@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Load the dataset
-file_path = 'original_answers.csv'
+file_path = 'study_answers.csv'
 data = pd.read_csv(file_path)
 
 # Identify columns for "before" and "after" test scores
@@ -58,7 +58,7 @@ data_0 = data[data['Choose a number'] == 0]
 data_1 = data[data['Choose a number'] == 1]
 
 # Save to separate Excel files
-data_0.to_excel('enhanced_text_results.xlsx', index=False)
-data_1.to_excel('original_text_results.xlsx', index=False)
+data_0.to_excel('results_enhanced_text.xlsx', index=False)
+data_1.to_excel('results_original_text.xlsx', index=False)
 
-print("Data processing complete. Files saved as enhanced_text_results.xlsx and original_text_results.xlsx.")
+print("Data processing complete. Files saved as results_enhanced_text.xlsx and results_original_text.xlsx.")
