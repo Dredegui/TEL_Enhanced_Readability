@@ -1,4 +1,4 @@
-# Folder Overview: `excel_stats`
+# `excel_stats`
 
 ## Prompts
 
@@ -14,34 +14,8 @@
 4. **Third Metric-based Prompt**
     - Prompt: Your task is to reduce the Flesch-Kincaid Grade Level of texts. The Flesch-Kincaid Grade Level is calculated using the formula: Grade Level = 0.39 * (Total Words / Total Sentences) + 11.8 * (Total Syllables / Total Words) - 15.59. Given a text, rewrite it to significantly reduce its complexity by focusing on: Simplifying sentence structures; Using fewer syllables per word; Reducing the average sentence length. Ensure the rewritten text maintains its original meaning while achieving a much lower grade level.
 
-## Results/Folder Contents
-
-1. **`statistics_general_sentiment.xlsx`**
-   - Description: Contains the raw statistics for the general sentiment prompt.
-   - Average Improvement: 13.2000
-
-2. **`statistics_general_sentiment_cleaned.xlsx`**
-   - Description: A cleaned version of the statistics related to the general sentiment prompt. (Removed artifacts)
-   - Average Improvement: 13.1597
-
-3. **`statistics_first_metric_prompt.xlsx`**
-   - Description: Contains data related to the first metric prompt based on general sentiment.
-   - Average Improvement: 13.4300 (Has simplification we don't want this)
-
-4. **`statistics_second_metric_prompt.xlsx`**
-   - Description: Contains data related to the second metric-based prompt.
-   - Average Improvement: 13.3900
-
-5. **`statistics_third_metric_prompt.xlsx`**
-   - Description: Contains data related to the third metric-based prompt.
-   - Average Improvement: 13.4300
-
-6. **`statistics_third_metric_prompt_cleaned.xlsx`**
-   - Description: A cleaned version of the statistics for the third metric-based prompt. (Removed artifacts)
-   - Average Improvement: 13.3946
-
-## Conclusion
-
-The data indicates a consistent pattern of improvement across different prompts, with average improvements ranging between 13.15 and 13.43. This suggests a notable performance enhancement across all the prompts analyzed. This testing via this readability metric were purely to be used as an initial indicator of which prompt to use for the study.
-
-Results would be more conclusive if the readability metric was tested on a larger dataset.
+## **Average Improvements**:
+  - `statistics_plaintext.xlsx`: $12.08%$
+  - `statistics_first_metric_based.xlsx`: $12.10%$
+  - `statistics_second_metric_based.xlsx`: $12.02%$
+  - `statistics_third_metric_based.xlsx`: $12.15%$
