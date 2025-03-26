@@ -25,7 +25,7 @@ def calculate_readability(text):
     return [flesch_kincaid, num_words, num_sentences]
 
 
-def save_statistics(text, response):
+def save_statistics(text, response, file="statistics.xlsx"):
     # Calculate the readability of the original text
     results_original = calculate_readability(text)
     readability_original = results_original[0]
@@ -52,15 +52,14 @@ def save_statistics(text, response):
     }
 
     df = pd.DataFrame(data)
-    file_path = "statistics.xlsx"
 
-    if os.path.exists(file_path):
+    if os.path.exists(file):
         # If the file exists, append the new data
-        with pd.ExcelWriter(file_path, engine='openpyxl', mode='a', if_sheet_exists='overlay') as writer:
+        with pd.ExcelWriter(file, engine='openpyxl', mode='a', if_sheet_exists='overlay') as writer:
             df.to_excel(writer, index=False, header=False, startrow=writer.sheets['Sheet1'].max_row)
     else:
         # If the file does not exist, create a new file
-        df.to_excel(file_path, index=False)
+        df.to_excel(file, index=False)
 
 
 def graph_readability():
@@ -77,7 +76,7 @@ def graph_readability():
     plt.show()
 
 
-def prompted_request(system_prompt, text, client, temp=0.7, max_tks=5000, model="gpt-3.5-turbo"):
+def prompted_request(system_prompt, text, client, temp=0.7, max_tks=4000, model="gpt-3.5-turbo"):
     # Call the OpenAI API
     response = client.chat.completions.create(
         model=model,
