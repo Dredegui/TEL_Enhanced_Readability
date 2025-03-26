@@ -22,8 +22,10 @@ def view_statistics():
     
     return average_improvement
 """
-# file = dir_path + "excel_stats\\statistics_new_metrics_based.xlsx"
-file = dir_path + "statistics_general_sentiment_cleaned.xlsx"
+# file = dir_path + "statistics_plaintext.xlsx" # 12.07786972733481
+file = dir_path + "statistics_first_metric_based.xlsx" # 12.102720577443629
+# file = dir_path + "statistics_second_metric_based.xlsx" # 12.015715077596031
+# file = dir_path + "statistics_third_metric_based.xlsx" # 12.148516157741902
 
 def view_statistics():
     # Read the statistics from the excel file
