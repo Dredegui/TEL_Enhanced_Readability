@@ -1,8 +1,8 @@
 # `intrinsic_evaluation`
 
-This folder contains scripts and resources for processing datasets, cleaning LaTeX documents, and generating statistics related to intrinsic evaluations of text readability. Below is an explanation of each file in this folder.
+This folder contains scripts and resources for processing datasets, cleaning LaTeX documents, and generating statistics related to intrinsic evaluations of text readability. Below is an explanation of each file and folder in this directory.
 
-## Files
+## Files and Folders
 
 ### 1. `clean_latex.py`
 - **Purpose**: Contains functions to clean and process LaTeX documents by removing LaTeX commands, environments, and inline/display math.
@@ -22,11 +22,11 @@ This folder contains scripts and resources for processing datasets, cleaning LaT
 - **Purpose**: Processes text data using various system prompts and saves the results into Excel files for further analysis.
 - **Key Functions**:
   - `process`: Sends text data to a text enhancement AI using specified prompts and saves the results.
-  - `main`: Entry point for processing the dataset in `input.xlsx` using four different prompts and saving results to:
-    - `statistics_plaintext.xlsx`
-    - `statistics_first_metric_based.xlsx`
-    - `statistics_second_metric_based.xlsx`
-    - `statistics_third_metric_based.xlsx`
+  - `main`: Entry point for processing the dataset in `excel_stats/input.xlsx` using four different prompts and saving results to:
+    - `excel_stats/statistics_plaintext.xlsx`
+    - `excel_stats/statistics_first_metric_based.xlsx`
+    - `excel_stats/statistics_second_metric_based.xlsx`
+    - `excel_stats/statistics_third_metric_based.xlsx`
 
 ### 4. `stats.py`
 - **Purpose**: Analyzes and visualizes the readability statistics from the generated Excel files.
@@ -35,22 +35,31 @@ This folder contains scripts and resources for processing datasets, cleaning LaT
   - `graph_readability`: Plots the percentage improvement in readability.
   - `graph_readability_categories`: Categorizes and visualizes performance clusters based on readability improvement.
 
-### 5. `input.xlsx`
-- **Purpose**: Contains the raw text data used for intrinsic evaluation. This file is processed by `dataset_process.py`.
-
-### 6. `api.env`
+### 5. `api.env`
 - **Purpose**: Environment file containing configuration variables such as `DIR_PATH` and `API_KEY` for accessing datasets and APIs.
+
+### 6. `excel_stats/`
+- **Purpose**: Contains the input dataset and the results of the intrinsic evaluation.
+- **Files**:
+  - `input.xlsx`: The raw text data used for intrinsic evaluation. This file is processed by `dataset_process.py`.
+  - `statistics_plaintext.xlsx`: Results of processing the dataset with a general text enhancement prompt.
+  - `statistics_first_metric_based.xlsx`: Results of processing the dataset with the first metric-based prompt.
+  - `statistics_second_metric_based.xlsx`: Results of processing the dataset with the second metric-based prompt.
+  - `statistics_third_metric_based.xlsx`: Results of processing the dataset with the third metric-based prompt.
+
+### 7. `__pycache__/`
+- **Purpose**: Contains cached Python files for faster execution. This folder is automatically generated and can be ignored.
 
 ## Results
 
-- **Excel Files with Results**: The processed results from the intrinsic evaluation are available in the following link:
+- **Excel Files with Results**: The processed results from the intrinsic evaluation are stored in the `excel_stats` folder. You can also download them from the following link:
   [Download Results](https://drive.google.com/file/d/1QT_9MwBEHgfvzXbYBvtCxmrSjOTucf0C/view?usp=sharing)
 
-- **statistics_plaintext.xlsx** | Average Improvement: $12.07786972733481$
-- **statistics_first_metric_based.xlsx** | Average Improvement: $12.102720577443629$
-- **statistics_second_metric_based.xlsx** | Average Improvement: $12.015715077596031$
-- **statistics_third_metric_based.xlsx** | Average Improvement: $12.148516157741902$
-
+- **Average Improvements**:
+  - `statistics_plaintext.xlsx`: **12.08%**
+  - `statistics_first_metric_based.xlsx`: **12.10%**
+  - `statistics_second_metric_based.xlsx`: **12.02%**
+  - `statistics_third_metric_based.xlsx`: **12.15%**
 
 ## Usage
 
@@ -61,4 +70,4 @@ This folder contains scripts and resources for processing datasets, cleaning LaT
 ## Notes
 
 - Ensure that the `api.env` file is correctly configured with the required paths and API keys before running the scripts.
-- The processed results are saved in Excel files for further analysis and visualization.
+- The processed results are saved in the `excel_stats` folder for further analysis and visualization.
