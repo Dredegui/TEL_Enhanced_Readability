@@ -106,4 +106,3 @@ All visualizations for the data from the studies are located in the `graph_stats
 ## License
 
 This project is still under consideration for a license.
-```
