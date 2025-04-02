@@ -19,3 +19,10 @@
   - `statistics_first_metric_based.xlsx`: $12.10%$
   - `statistics_second_metric_based.xlsx`: $12.02%$
   - `statistics_third_metric_based.xlsx`: $12.15%$
+
+## Discussion
+
+
+The observed average improvements of around 12% across various metrics indicate a significant enhancement in readability. This suggests that the text simplification strategies employed were effective in making the content more accessible. Notably, the third metric-based prompt, which directly targeted the Flesch-Kincaid Grade Level, demonstrated the highest improvement at 12.15%. This aligns with the objective of making the text easier to understand, particularly for readers with lower reading proficiency. Additionally, in reviewing the results, the first prompt of the AI tended to shorten the texts.
+
+Overall, these results underscore the importance of targeted readability enhancements in improving textual comprehension. The consistent improvements across different prompts highlight the efficacy of the implemented strategies in achieving simpler and more readable text.
