@@ -1,6 +1,10 @@
 # TEL Enhanced Readability
 
-Project for TEL (Technology Enhanced Readability) on KTH.
+This project was developed for **Technology Enhanced Learning (TEL)** at **KTH Royal Institute of Technology**. It later evolved into a research paper co-authored by:  
+
+- **Marlinde van den Bosch**  
+- **Olga Viberg**  
+- **Carrie Demmans Epp**  
 
 ## Table of Contents
 
